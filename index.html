@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IA Video Hub</title>
+<style>
+body{font-family:Arial,sans-serif;background:#101322;color:white;text-align:center;padding:20px}
+.card{background:#20263d;padding:22px;border-radius:18px;max-width:480px;margin:25px auto}
+h1{color:#8b9dff}
+textarea{width:100%;box-sizing:border-box;min-height:110px;padding:12px;border-radius:10px;font-size:16px}
+button{margin-top:12px;padding:12px 20px;border:0;border-radius:10px;background:#687cff;color:white;font-size:16px}
+</style>
+</head>
+<body>
+<div class="card">
+<h1>IA Video Hub 🚀</h1>
+<p>Bienvenue sur ton espace de création IA !</p>
+<h3>Générateur d’idées de vidéos</h3>
+<textarea id="theme" placeholder="Écris ton thème : amour, motivation, histoires..."></textarea>
+<br><button onclick="generer()">Générer une idée</button>
+<p id="resultat"></p>
+</div>
+<script>
+function generer(){
+const theme=document.getElementById("theme").value.trim();
+if(!theme){document.getElementById("resultat").textContent="Écris d’abord un thème.";return;}
+const idees=["Une histoire surprenante sur "+theme+". Termine par une question !","Une vidéo captivante sur "+theme+". Invite les abonnés à commenter !","Une accroche forte sur "+theme+" pour attirer l’attention !"];
+document.getElementById("resultat").textContent=idees[Math.floor(Math.random()*idees.length)];
+}
+</script>
+</body>
+</html>
