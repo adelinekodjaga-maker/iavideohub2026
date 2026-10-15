@@ -3,31 +3,228 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#101426">
 <title>IA Video Hub</title>
+
 <style>
-body{font-family:Arial,sans-serif;background:#101322;color:white;text-align:center;padding:20px}
-.card{background:#20263d;padding:22px;border-radius:18px;max-width:480px;margin:25px auto}
-h1{color:#8b9dff}
-textarea{width:100%;box-sizing:border-box;min-height:110px;padding:12px;border-radius:10px;font-size:16px}
-button{margin-top:12px;padding:12px 20px;border:0;border-radius:10px;background:#687cff;color:white;font-size:16px}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  padding:20px 14px;
+  font-family:Arial,sans-serif;
+  background:#101426;
+  color:#fff;
+}
+header{text-align:center;margin:15px 0 25px}
+.logo{font-size:42px}
+h1{color:#8795ff;font-size:30px;margin:8px 0}
+.subtitle{color:#c7cbe0;line-height:1.5}
+.container{max-width:650px;margin:auto}
+.card{
+  background:#202943;
+  border:1px solid #34405e;
+  border-radius:18px;
+  padding:18px;
+  margin-bottom:18px;
+}
+h2{font-size:20px;margin-top:0}
+label{display:block;margin:14px 0 8px;font-weight:bold}
+select,textarea,input{
+  width:100%;
+  padding:13px;
+  border-radius:10px;
+  border:1px solid #65739a;
+  background:#121a2d;
+  color:#fff;
+  font-size:16px;
+}
+textarea{min-height:105px;resize:vertical}
+button{
+  width:100%;
+  border:0;
+  padding:14px;
+  border-radius:11px;
+  background:#697cff;
+  color:#fff;
+  font-size:16px;
+  font-weight:bold;
+  margin-top:12px;
+  cursor:pointer;
+}
+button:active{opacity:.8}
+.result{
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
+  background:#111a2e;
+  padding:14px;
+  border-radius:10px;
+  line-height:1.6;
+  margin-top:14px;
+  min-height:35px;
+}
+.small{font-size:13px;color:#bbc3df;line-height:1.5}
+footer{text-align:center;color:#aab3d2;font-size:12px;padding:15px}
 </style>
 </head>
+
 <body>
-<div class="card">
-<h1>IA Video Hub 🚀</h1>
-<p>Bienvenue sur ton espace de création IA !</p>
-<h3>Générateur d’idées de vidéos</h3>
-<textarea id="theme" placeholder="Écris ton thème : amour, motivation, histoires..."></textarea>
-<br><button onclick="generer()">Générer une idée</button>
-<p id="resultat"></p>
+<div class="container">
+
+<header>
+  <div class="logo">🎬🚀</div>
+  <h1>IA Video Hub</h1>
+  <p class="subtitle">Ton studio créatif pour les vidéos IA et TikTok.</p>
+</header>
+
+<section class="card">
+<h2>🎥 Générateur de prompts vidéo IA</h2>
+
+<label for="typeVideo">Type de vidéo</label>
+<select id="typeVideo">
+<option>Histoire d'amour</option>
+<option>Motivation et réussite</option>
+<option>Histoire drôle</option>
+<option>Conseils de vie</option>
+<option>Combat animalier fictif</option>
+<option>Vidéo religieuse</option>
+<option>Publicité professionnelle</option>
+<option>Histoire africaine</option>
+</select>
+
+<label for="styleVideo">Style visuel</label>
+<select id="styleVideo">
+<option>Ultra réaliste et cinématographique</option>
+<option>Film professionnel</option>
+<option>Documentaire réaliste</option>
+<option>Animation 3D</option>
+<option>Style viral TikTok</option>
+</select>
+
+<label for="detailsVideo">Décris ton idée</label>
+<textarea id="detailsVideo" placeholder="Exemple : une jeune femme rencontre son futur mari au Togo..."></textarea>
+
+<button onclick="genererPrompt()">✨ Créer mon prompt</button>
+<div id="resultPrompt" class="result" hidden></div>
+<button id="copyPrompt" onclick="copier('resultPrompt')" hidden>📋 Copier le prompt</button>
+</section>
+
+<section class="card">
+<h2>📱 Textes TikTok prêts à copier</h2>
+
+<label for="themeTikTok">Sujet de ta publication</label>
+<textarea id="themeTikTok" placeholder="Exemple : célibat, amour au Togo, motivation..."></textarea>
+
+<label for="formatTikTok">Type de texte</label>
+<select id="formatTikTok">
+<option>Accroche attirante</option>
+<option>Question pour faire commenter</option>
+<option>Texte romantique</option>
+<option>Phrase drôle</option>
+<option>Motivation</option>
+<option>Description avec hashtags</option>
+</select>
+
+<button onclick="genererTikTok()">🔥 Créer mon texte</button>
+<div id="resultTikTok" class="result" hidden></div>
+<button id="copyTikTok" onclick="copier('resultTikTok')" hidden>📋 Copier le texte</button>
+</section>
+
+<section class="card">
+<h2>💬 Accroches pour attirer les commentaires</h2>
+<p class="small">Choisis une accroche et copie-la pour ta prochaine vidéo.</p>
+<button onclick="accroche(0)">❤️ Amour et célibat</button>
+<button onclick="accroche(1)">🇹🇬 Amour au Togo</button>
+<button onclick="accroche(2)">😂 Question amusante</button>
+<button onclick="accroche(3)">✨ Motivation</button>
+<div id="resultAccroche" class="result" hidden></div>
+<button id="copyAccroche" onclick="copier('resultAccroche')" hidden>📋 Copier l'accroche</button>
+</section>
+
+<footer>
+IA Video Hub · Studio créatif personnel<br>
+Les résultats sont générés à partir de modèles intégrés.
+</footer>
+
 </div>
+
 <script>
-function generer(){
-const theme=document.getElementById("theme").value.trim();
-if(!theme){document.getElementById("resultat").textContent="Écris d’abord un thème.";return;}
-const idees=["Une histoire surprenante sur "+theme+". Termine par une question !","Une vidéo captivante sur "+theme+". Invite les abonnés à commenter !","Une accroche forte sur "+theme+" pour attirer l’attention !"];
-document.getElementById("resultat").textContent=idees[Math.floor(Math.random()*idees.length)];
+function afficher(id, texte, bouton){
+  document.getElementById(id).textContent=texte;
+  document.getElementById(id).hidden=false;
+  document.getElementById(bouton).hidden=false;
+}
+
+function genererPrompt(){
+  const type=document.getElementById("typeVideo").value;
+  const style=document.getElementById("styleVideo").value;
+  const details=document.getElementById("detailsVideo").value.trim();
+
+  if(!details){
+    alert("Décris ton idée avant de générer le prompt.");
+    return;
+  }
+
+  const texte=`Crée une vidéo ${type.toLowerCase()}, en style ${style.toLowerCase()}.
+Sujet : ${details}
+Format vertical 9:16, sujet clairement visible, mouvements naturels, expressions crédibles, éclairage soigné, décors détaillés, caméra fluide et continuité visuelle entre les plans.
+Audio et dialogues en français si nécessaire. Évite les visages déformés, les mouvements incohérents, les textes illisibles et les filigranes.
+Réalise une vidéo captivante avec une introduction forte, une progression claire et une fin mémorable.`;
+  afficher("resultPrompt",texte,"copyPrompt");
+}
+
+function genererTikTok(){
+  const sujet=document.getElementById("themeTikTok").value.trim();
+  const format=document.getElementById("formatTikTok").value;
+
+  if(!sujet){
+    alert("Écris d'abord le sujet de ta publication.");
+    return;
+  }
+
+  const modeles=[
+    `Attendez un peu ! 🔥 Parlons franchement de ${sujet}… Vous êtes d'accord avec moi ou pas ? Dites-moi en commentaire ! 👇`,
+    `J'ai une question pour vous : que pensez-vous vraiment de ${sujet} ? ❤️ Je lis vos réponses en commentaire.`,
+    `En amour, tout n'est pas toujours facile… Parlons de ${sujet}. Et vous, quelle est votre expérience ? 💕`,
+    `😂 Soyons honnêtes sur ${sujet} ! Qui peut m'expliquer ça ? Je vous attends en commentaire.`,
+    `N'abandonne jamais à cause de ${sujet}. Chaque jour est une nouvelle chance d'avancer. 💪`,
+    `${sujet} ✨ Qu'en pensez-vous ? Partagez votre avis ! #TikTok #PourToi #Discussion`
+  ];
+
+  afficher("resultTikTok",modeles[[
+    "Accroche attirante",
+    "Question pour faire commenter",
+    "Texte romantique",
+    "Phrase drôle",
+    "Motivation",
+    "Description avec hashtags"
+  ].indexOf(format)],"copyTikTok");
+}
+
+function accroche(n){
+  const textes=[
+    "❤️ Une question pour les célibataires : vous cherchez l'amour ou vous attendez que l'amour vous trouve ? Dites-moi !",
+    "🇹🇬 Les Togolais, parlons d'amour ! Qu'est-ce qui fait qu'une personne devient vraiment inoubliable ?",
+    "😂 Soyons honnêtes : qui tombe amoureux en premier, celui qui parle beaucoup ou celui qui agit ?",
+    "✨ Ton heure viendra aussi. Qui croit encore aux belles surprises de la vie ?"
+  ];
+  afficher("resultAccroche",textes[n],"copyAccroche");
+}
+
+async function copier(id){
+  const texte=document.getElementById(id).textContent;
+  try{
+    await navigator.clipboard.writeText(texte);
+    alert("Texte copié ! Tu peux le coller où tu veux.");
+  }catch(e){
+    const zone=document.createElement("textarea");
+    zone.value=texte;
+    document.body.appendChild(zone);
+    zone.select();
+    document.execCommand("copy");
+    zone.remove();
+    alert("Texte copié !");
+  }
 }
 </script>
 </body>
-</html>
+  </html>
